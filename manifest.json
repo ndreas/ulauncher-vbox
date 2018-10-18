@@ -1,0 +1,20 @@
+{
+  "manifest_version": "2",
+  "api_version": "1",
+  "name": "VirtualBox extension",
+  "description": "Start and stop VirtualBox instances",
+  "developer_name": "Andreas Johansson",
+  "icon": "images/icon.png",
+  "options": {
+    "query_debounce": 0.4
+  },
+  "preferences": [
+    {
+      "id": "vbox_kw",
+      "type": "keyword",
+      "name": "vbox",
+      "description": "VirtualBox extension keyword",
+      "default_value": "vbox"
+    }
+  ]
+}
