@@ -24,7 +24,7 @@ class VboxExtension(Extension):
             cmd = 'vboxmanage startvm "{}" --type gui'
 
         return ExtensionResultItem(icon='images/icon.png',
-                                   name=vm['name'],
+                                   name=vm['name'].decode('utf-8'),
                                    description=vm['description'],
                                    on_enter=RunScriptAction(cmd.format(vm['id']), None))
 
@@ -41,20 +41,20 @@ class KeywordQueryEventListener(EventListener):
 
         if arg is not None:
             arg = arg.lower()
-            vms = filter(lambda v: arg in v['name'], vms)
+            vms = [v for v in vms if arg in v['name']]
 
-        return RenderResultListAction(map(extension.build_result, vms))
+        return RenderResultListAction(list(map(extension.build_result, vms)))
 
 
 def vbox_vms():
     vms = vboxmanage_list('vms')
     running_vms = vboxmanage_list('runningvms')
 
-    for id, vm in running_vms.iteritems():
+    for id, vm in running_vms.items():
         vms[id]['running'] = True
         vms[id]['description'] = 'Stop'
 
-    return vms.values()
+    return list(vms.values())
 
 
 def vboxmanage_list(output):
